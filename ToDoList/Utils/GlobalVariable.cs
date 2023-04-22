@@ -13,6 +13,7 @@ namespace ToDoList.Utils
         public string TODO_LIST_FOLDER { get; private set; }
         public string COMPUTER_ID { get; private set; }
         public string DATA_PATH { get; private set; }
+        public string KEY_ENCTYPED { get; private set; }
 
         private static GlobalVariable _instance;
         public static GlobalVariable Instance
@@ -45,6 +46,7 @@ namespace ToDoList.Utils
             TODO_LIST_FOLDER = todoList;
 
             COMPUTER_ID = ToDoListLib.Helper.CommonHelper.GetComputerID();
+            KEY_ENCTYPED = ToDoListLib.Helper.EncryptHelper.GetHashSHA256(COMPUTER_ID);
             DATA_PATH = Path.Combine(TODO_LIST_FOLDER, "data.json");
         }
     }

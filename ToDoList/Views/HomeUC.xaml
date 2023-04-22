@@ -23,14 +23,7 @@
     </behaviors:Interaction.Triggers>
     <Grid Background="White">
         <Grid.Resources>
-            <Style TargetType="Button">
-                <Setter Property="Width"
-                        Value="80" />
-                <Setter Property="Height"
-                        Value="auto" />
-                <Setter Property="Margin"
-                        Value="5" />
-            </Style>
+           
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -41,14 +34,50 @@
         <!--row0-->
         <Grid Grid.Row="0"
               Margin="5">
-            <Grid HorizontalAlignment="Right">
+            <Grid>
+                <TextBlock Margin="5"
+                           VerticalAlignment="Center">
+                    <Run Text="{Binding ToDay, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" />
+                </TextBlock>
+            </Grid>
+            <StackPanel HorizontalAlignment="Right"
+                        Orientation="Horizontal">
                 <Button FontSize="20"
                         FontWeight="SemiBold"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        ToolTip="Add Job"
                         Command="{Binding AddJobCommand}"
                         CommandParameter="{Binding ElementName=_this}">
-                    +
+                    <Image Source="../Images/plus.png"
+                           Height="25"
+                           Width="25" />
                 </Button>
-            </Grid>
+
+                <Button FontSize="20"
+                        FontWeight="SemiBold"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        ToolTip="Save Job"
+                        Command="{Binding SaveJobCommand}"
+                        CommandParameter="{Binding ElementName=_this}">
+                    <Image Source="../Images/save.png"
+                           Height="23"
+                           Width="23" />
+                </Button>
+
+                <Button FontSize="20"
+                        FontWeight="SemiBold"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        ToolTip="Refresh Job"
+                        Command="{Binding RefreshJobCommand}"
+                        CommandParameter="{Binding ElementName=_this}">
+                    <Image Source="../Images/refresh.png"
+                           Height="25"
+                           Width="25" />
+                </Button>
+            </StackPanel>
         </Grid>
 
 
@@ -65,20 +94,20 @@
                             <Grid HorizontalAlignment="Stretch"
                                   Margin="5">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="200" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-                                
+
                                 <!--column0-->
                                 <Grid Grid.Column="0">
                                     <CheckBox IsThreeState="False"
-                                              IsChecked="{Binding IsDoneJob,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                              IsChecked="{Binding IsDoneJob,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <TextBlock Text="{Binding Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                   MaxWidth="150"
+                                                   TextTrimming="CharacterEllipsis"/>
+                                    </CheckBox>
                                 </Grid>
-
-                                <!--column11-->
-                                <Grid Grid.Column="1">
-                                    <TextBlock Text="{Binding Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                </Grid>
+                                
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
