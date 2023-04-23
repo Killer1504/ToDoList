@@ -46,6 +46,7 @@
     <Compile Include="Helper\EncryptHelper.cs" />
     <Compile Include="Interfaces\IViewModel.cs" />
     <Compile Include="Models\BaseNotifyPropertyChanged.cs" />
+    <Compile Include="Models\JobListWatcher.cs" />
     <Compile Include="Models\JobModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

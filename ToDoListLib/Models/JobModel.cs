@@ -46,6 +46,7 @@ namespace ToDoListLib.Models
                 {
                     _isDoneJob = value;
                     RaisePropertyChanged(nameof(IsDoneJob));
+                    DataChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -60,10 +61,12 @@ namespace ToDoListLib.Models
                 {
                     _name = value;
                     RaisePropertyChanged(nameof(Name));
+                    DataChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
         
+        public EventHandler<EventArgs> DataChanged { get; set; }
         public JobModel()
         {
             Id = ToDoListLib.Helper.CommonHelper.GetIDString();

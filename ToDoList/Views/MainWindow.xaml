@@ -9,11 +9,18 @@
         xmlns:viewModels="clr-namespace:ToDoList.ViewModels"
         xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
         x:Name="_this"
-        ResizeMode="NoResize"
+        WindowState="Maximized"
+        ResizeMode="CanResize"
         WindowStartupLocation="CenterScreen"
         Title="To Do List"
         Height="600"
         Width="450">
+    <Window.InputBindings>
+        <KeyBinding Key="S"
+                    Modifiers="Ctrl"
+                    Command="{Binding SaveCommand}"
+                    CommandParameter="{Binding ElementName=_this}"/>
+    </Window.InputBindings>
     <Window.DataContext>
         <viewModels:MainWindowViewModel />
     </Window.DataContext>
@@ -26,6 +33,37 @@
         </behaviors:EventTrigger>
     </behaviors:Interaction.Triggers>
     <Grid>
-        <views:HomeUC />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Menu VerticalAlignment="Center"
+                      Margin="5">
+                    <MenuItem Header="_File">
+                        <MenuItem Header="_Save"
+                                  Command="{Binding SaveCommand}"
+                                  CommandParameter="{Binding ElementName=_this}"
+                                  InputGestureText="Ctrl+S" />
+                        <Separator />
+                        <MenuItem Header="_Exit"
+                                  InputGestureText="Alt+F4"
+                                  Command="{Binding CloseCommand}"
+                                  CommandParameter="{Binding ElementName=_this}" />
+                    </MenuItem>
+                </Menu>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <views:HomeUC x:Name="homeUC" />
+        </Grid>
     </Grid>
 </Window>

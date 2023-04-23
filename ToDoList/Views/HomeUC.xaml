@@ -8,7 +8,7 @@
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d"
              x:Name="_this"
-             d:DesignHeight="800"
+             d:DesignHeight="600"
              d:DesignWidth="450">
     <UserControl.DataContext>
         <viewModels:HomeViewModel />
@@ -22,11 +22,8 @@
         </behaviors:EventTrigger>
     </behaviors:Interaction.Triggers>
     <Grid Background="White">
-        <Grid.Resources>
-           
-        </Grid.Resources>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="0" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -40,81 +37,280 @@
                     <Run Text="{Binding ToDay, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" />
                 </TextBlock>
             </Grid>
-            <StackPanel HorizontalAlignment="Right"
-                        Orientation="Horizontal">
-                <Button FontSize="20"
-                        FontWeight="SemiBold"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        ToolTip="Add Job"
-                        Command="{Binding AddJobCommand}"
-                        CommandParameter="{Binding ElementName=_this}">
-                    <Image Source="../Images/plus.png"
-                           Height="25"
-                           Width="25" />
-                </Button>
 
-                <Button FontSize="20"
-                        FontWeight="SemiBold"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        ToolTip="Save Job"
-                        Command="{Binding SaveJobCommand}"
-                        CommandParameter="{Binding ElementName=_this}">
-                    <Image Source="../Images/save.png"
-                           Height="23"
-                           Width="23" />
-                </Button>
-
-                <Button FontSize="20"
-                        FontWeight="SemiBold"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        ToolTip="Refresh Job"
-                        Command="{Binding RefreshJobCommand}"
-                        CommandParameter="{Binding ElementName=_this}">
-                    <Image Source="../Images/refresh.png"
-                           Height="25"
-                           Width="25" />
-                </Button>
-            </StackPanel>
         </Grid>
 
 
         <!--row1-->
 
-        <Grid Grid.Row="1"
-              Margin="5">
-            <Border BorderBrush="Black"
-                    BorderThickness="1">
-                <ListView ItemsSource="{Binding TodoJobs, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                          HorizontalContentAlignment="Stretch">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid HorizontalAlignment="Stretch"
-                                  Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="200" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.Resources>
+                <Style TargetType="TextBlock"
+                       x:Key="txtTitle">
+                    <Setter Property="Margin"
+                            Value="5" />
+                    <Setter Property="FontSize"
+                            Value="15" />
+                    <Setter Property="FontStyle"
+                            Value="Italic" />
+                    <Setter Property="FontWeight"
+                            Value="SemiBold" />
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-                                <!--column0-->
-                                <Grid Grid.Column="0">
-                                    <CheckBox IsThreeState="False"
-                                              IsChecked="{Binding IsDoneJob,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                        <TextBlock Text="{Binding Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                   MaxWidth="150"
-                                                   TextTrimming="CharacterEllipsis"/>
-                                    </CheckBox>
+            <!--column0: daily-->
+            <Grid Grid.Column="0"
+                  Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <TextBlock Text="Daily"
+                               HorizontalAlignment="Left"
+                               Style="{StaticResource txtTitle}" />
+
+                    <StackPanel HorizontalAlignment="Right"
+                                Orientation="Horizontal">
+                        <Button FontSize="20"
+                                FontWeight="SemiBold"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                ToolTip="Add Job"
+                                Command="{Binding AddJobCommand}"
+                                CommandParameter="Daily">
+                            <Image Source="../Images/plus.png"
+                                   Height="25"
+                                   Width="25" />
+                        </Button>
+
+                        <Button FontSize="20"
+                                FontWeight="SemiBold"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                ToolTip="Refresh Job"
+                                Command="{Binding RefreshJobCommand}"
+                                CommandParameter="Daily">
+                            <Image Source="../Images/refresh.png"
+                                   Height="25"
+                                   Width="25" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <Border BorderBrush="Black"
+                        Grid.Row="1"
+                        BorderThickness="1">
+                    <ListView ItemsSource="{Binding TodoJobs_Daily, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                              HorizontalContentAlignment="Stretch">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch"
+                                      Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="0">
+                                        <TextBlock Text="{Binding STT, Mode=OneWay,UpdateSourceTrigger=PropertyChanged, StringFormat=D2}"
+                                                   Margin="5 0" />
+                                    </Grid>
+                                    <!--column1-->
+                                    <Grid Grid.Column="1">
+                                        <CheckBox IsThreeState="False"
+                                                  IsChecked="{Binding IsDoneJob,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <TextBlock Text="{Binding Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                       MaxWidth="150"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </CheckBox>
+                                    </Grid>
+
                                 </Grid>
-                                
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Border>
+
+            </Grid>
+
+            <GridSplitter Grid.Column="1"
+                          HorizontalAlignment="Stretch"
+                          Width="5"
+                          Background="LightGray">
+
+            </GridSplitter>
+
+            <GridSplitter Grid.Column="3"
+                          HorizontalAlignment="Stretch"
+                          Width="5"
+                          Background="LightGray">
+
+            </GridSplitter>
+
+            <!--column2: weekly-->
+            <Grid Grid.Column="2"
+                  Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <TextBlock Text="Weekly"
+                               HorizontalAlignment="Left"
+                               Style="{StaticResource txtTitle}" />
+
+                    <StackPanel HorizontalAlignment="Right"
+                                Orientation="Horizontal">
+                        <Button FontSize="20"
+                                FontWeight="SemiBold"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                ToolTip="Add Job"
+                                Command="{Binding AddJobCommand}"
+                                CommandParameter="Weekly">
+                            <Image Source="../Images/plus.png"
+                                   Height="25"
+                                   Width="25" />
+                        </Button>
+
+
+                        <Button FontSize="20"
+                                FontWeight="SemiBold"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                ToolTip="Refresh Job"
+                                Command="{Binding RefreshJobCommand}"
+                                CommandParameter="Weekly">
+                            <Image Source="../Images/refresh.png"
+                                   Height="25"
+                                   Width="25" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <Border BorderBrush="Black"
+                        Grid.Row="1"
+                        BorderThickness="1">
+                    <ListView ItemsSource="{Binding TodoJobs_Weekly, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                              HorizontalContentAlignment="Stretch">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch"
+                                      Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="0">
+                                        <TextBlock Text="{Binding STT, Mode=OneWay,UpdateSourceTrigger=PropertyChanged, StringFormat=D2}"
+                                                   Margin="5 0" />
+                                    </Grid>
+                                    <!--column1-->
+                                    <Grid Grid.Column="1">
+                                        <CheckBox IsThreeState="False"
+                                                  IsChecked="{Binding IsDoneJob,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <TextBlock Text="{Binding Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                       MaxWidth="150"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </CheckBox>
+                                    </Grid>
+
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Border>
+
+            </Grid>
+
+
+            <!--column2: weekly-->
+            <Grid Grid.Column="4"
+                  Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <TextBlock Text="Monthly"
+                               HorizontalAlignment="Left"
+                               Style="{StaticResource txtTitle}" />
+
+                    <StackPanel HorizontalAlignment="Right"
+                                Orientation="Horizontal">
+                        <Button FontSize="20"
+                                FontWeight="SemiBold"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                ToolTip="Add Job"
+                                Command="{Binding AddJobCommand}"
+                                CommandParameter="Monthly">
+                            <Image Source="../Images/plus.png"
+                                   Height="25"
+                                   Width="25" />
+                        </Button>
+
+
+                        <Button FontSize="20"
+                                FontWeight="SemiBold"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                ToolTip="Refresh Job"
+                                Command="{Binding RefreshJobCommand}"
+                                CommandParameter="Monthly">
+                            <Image Source="../Images/refresh.png"
+                                   Height="25"
+                                   Width="25" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <Border BorderBrush="Black"
+                        Grid.Row="1"
+                        BorderThickness="1">
+                    <ListView ItemsSource="{Binding TodoJobs_Monthly, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                              HorizontalContentAlignment="Stretch">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch"
+                                      Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="0">
+                                        <TextBlock Text="{Binding STT, Mode=OneWay,UpdateSourceTrigger=PropertyChanged, StringFormat=D2}"
+                                                   Margin="5 0" />
+                                    </Grid>
+                                    <!--column1-->
+                                    <Grid Grid.Column="1">
+                                        <CheckBox IsThreeState="False"
+                                                  IsChecked="{Binding IsDoneJob,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <TextBlock Text="{Binding Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                       MaxWidth="150"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </CheckBox>
+                                    </Grid>
+
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Border>
+
+            </Grid>
+
 
         </Grid>
+
+
 
 
         <!--row2-->

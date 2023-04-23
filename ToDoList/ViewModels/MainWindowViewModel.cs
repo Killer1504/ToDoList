@@ -19,7 +19,8 @@ namespace ToDoList.ViewModels
 
         #region commands
         public VfxCommand LoadedCommand { get; set; }
-        public VfxCommand GoToHomePageCommand { get; set; }
+        public VfxCommand SaveCommand { get; set; }
+        public VfxCommand CloseCommand { get; set; }
         #endregion
         public MainWindowViewModel()
         {
@@ -29,7 +30,25 @@ namespace ToDoList.ViewModels
         public void Init_Command()
         {
             LoadedCommand = new VfxCommand(OnLoaded, () => true);
-            GoToHomePageCommand = new VfxCommand(OnGoToHomePage, () => true);
+            SaveCommand = new VfxCommand(OnSave, () => true);
+            CloseCommand = new VfxCommand(OnClose, () => true);
+        }
+
+        private void OnClose(object obj)
+        {
+            if (obj is MainWindow wd)
+            {
+                Environment.Exit(0);
+            }
+        }
+
+        private void OnSave(object obj)
+        {
+            if (obj is MainWindow wd)
+            {
+                var homeViewModel = wd.homeUC.DataContext as HomeViewModel;
+                homeViewModel.OnSave(wd.homeUC);
+            }
         }
 
         private void OnGoToHomePage(object obj)
