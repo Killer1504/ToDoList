@@ -40,6 +40,7 @@ namespace ToDoList.ViewModels
         public VfxCommand AddJobCommand { get; set; }
         public VfxCommand SaveJobCommand { get; set; }
         public VfxCommand RefreshJobCommand { get; set; }
+        public VfxCommand DeleteJobCommand { get; set; }
         #endregion
 
         public HomeViewModel()
@@ -53,7 +54,13 @@ namespace ToDoList.ViewModels
             AddJobCommand = new VfxCommand(OnAddJob, () => true);
             SaveJobCommand = new VfxCommand(OnSave, () => true);
             RefreshJobCommand = new VfxCommand(OnRfresh, () => true);
+            DeleteJobCommand = new VfxCommand(OnDeleteJobCommand, () => true);
 
+        }
+
+        private void OnDeleteJobCommand(object obj)
+        {
+            MessageBox.Show(obj.ToString());
         }
 
         public void OnSave(object obj)
