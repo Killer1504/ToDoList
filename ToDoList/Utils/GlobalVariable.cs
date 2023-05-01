@@ -14,6 +14,7 @@ namespace ToDoList.Utils
         public string COMPUTER_ID { get; private set; }
         public string DATA_PATH { get; private set; }
         public string KEY_ENCTYPED { get; private set; }
+        public string URL_UPDATE_SOFTWARE { get; private set; }
 
         private static GlobalVariable _instance;
         public static GlobalVariable Instance
@@ -48,6 +49,8 @@ namespace ToDoList.Utils
             COMPUTER_ID = ToDoListLib.Helper.CommonHelper.GetComputerID();
             KEY_ENCTYPED = ToDoListLib.Helper.EncryptHelper.GetHashSHA256(COMPUTER_ID);
             DATA_PATH = Path.Combine(TODO_LIST_FOLDER, "data.json");
+
+            URL_UPDATE_SOFTWARE = "https://raw.githubusercontent.com/Killer1504/UpdateSoftWare/main/update_ToDoList.xml";
         }
     }
 }

@@ -20,6 +20,7 @@ namespace ToDoList.ViewModels
         public ObservableCollection<JobModel> TodoJobs_Daily { get; set; }
         public ObservableCollection<JobModel> TodoJobs_Weekly { get; set; }
         public ObservableCollection<JobModel> TodoJobs_Monthly { get; set; }
+        public ObservableCollection<JobModel> TodoJobs_Yearly { get; set; }
         private string _today;
         public string ToDay
         {
@@ -75,9 +76,8 @@ namespace ToDoList.ViewModels
                 _ = MessageBox.Show($"Lưu lỗi\r\n{ex.Message}", "Lưu", MessageBoxButton.OK, MessageBoxImage.Information);
 
             }
-
-
         }
+
 
         private void OnSaveData()
         {
@@ -85,19 +85,22 @@ namespace ToDoList.ViewModels
             var jsonStr_Daily = JsonConvert.SerializeObject(TodoJobs_Daily);
             var jsonStr_Weekly = JsonConvert.SerializeObject(TodoJobs_Weekly);
             var jsonStr_Monthly = JsonConvert.SerializeObject(TodoJobs_Monthly);
+            var jsonStr_Yearly = JsonConvert.SerializeObject(TodoJobs_Yearly);
 
             var key = Utils.GlobalVariable.Instance.KEY_ENCTYPED;
 
             var jsonEncrypted_Daily = ToDoListLib.Helper.EncryptHelper.EncryptString(jsonStr_Daily, key);
             var jsonEncrypted_Weekly = ToDoListLib.Helper.EncryptHelper.EncryptString(jsonStr_Weekly, key);
             var jsonEncrypted_Monthly = ToDoListLib.Helper.EncryptHelper.EncryptString(jsonStr_Monthly, key);
+            var jsonEncrypted_Yearly = ToDoListLib.Helper.EncryptHelper.EncryptString(jsonStr_Yearly, key);
             using (var sw = new StreamWriter(path))
             {
                 var dictionary = new Dictionary<string, string>
                 {
                     { "daily", jsonEncrypted_Daily },
                     { "weekly", jsonEncrypted_Weekly },
-                    { "monthly", jsonEncrypted_Monthly }
+                    { "monthly", jsonEncrypted_Monthly },
+                    { "yearly", jsonEncrypted_Yearly },
                 };
 
                 var jsonStr = JsonConvert.SerializeObject(dictionary);
@@ -126,7 +129,7 @@ namespace ToDoList.ViewModels
                                 var valueEncrypted = dictionary[_key];
                                 var valuePlain = ToDoListLib.Helper.EncryptHelper.DecryptString(valueEncrypted, keyEnctypt);
                                 var models = JsonConvert.DeserializeObject<ObservableCollection<JobModel>>(valuePlain);
-                                if(models != null && models.Count > 0)
+                                if (models != null && models.Count > 0)
                                 {
                                     foreach (var item in models)
                                     {
@@ -160,9 +163,22 @@ namespace ToDoList.ViewModels
                                     }
                                 }
                             }
+                            else if (_key.ToLower() == "yearly")
+                            {
+                                var valueEncrypted = dictionary[_key];
+                                var valuePlain = ToDoListLib.Helper.EncryptHelper.DecryptString(valueEncrypted, keyEnctypt);
+                                var models = JsonConvert.DeserializeObject<ObservableCollection<JobModel>>(valuePlain);
+                                if (models != null && models.Count > 0)
+                                {
+                                    foreach (var item in models)
+                                    {
+                                        TodoJobs_Yearly.Add(item);
+                                    }
+                                }
+                            }
                         }
 
-                        
+
                     }
                 }
 
@@ -193,6 +209,9 @@ namespace ToDoList.ViewModels
                     case "monthly":
                         TodoJobs_Monthly.ToList().ForEach(s => s.IsDoneJob = false);
                         break;
+                    case "yearly":
+                        TodoJobs_Yearly.ToList().ForEach(s => s.IsDoneJob = false);
+                        break;
                     default:
                         break;
                 }
@@ -216,11 +235,7 @@ namespace ToDoList.ViewModels
                     {
                         Name = "Tập thể dục",
                     });
-
-                    TodoJobs_Daily.Add(new JobModel()
-                    {
-                        Name = "Học c# (MVC)",
-                    });
+                    
                 }
             }
         }
@@ -230,11 +245,13 @@ namespace ToDoList.ViewModels
             TodoJobs_Daily = new ObservableCollection<JobModel>();
             TodoJobs_Weekly = new ObservableCollection<JobModel>();
             TodoJobs_Monthly = new ObservableCollection<JobModel>();
+            TodoJobs_Yearly = new ObservableCollection<JobModel>();
             ToDay = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture.DateTimeFormat);
 
             TodoJobs_Daily.CollectionChanged += TodoJobs_CollectionChanged;
             TodoJobs_Weekly.CollectionChanged += TodoJobs_CollectionChanged;
             TodoJobs_Monthly.CollectionChanged += TodoJobs_CollectionChanged;
+            TodoJobs_Yearly.CollectionChanged += TodoJobs_CollectionChanged;
         }
 
         private void TodoJobs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -287,11 +304,17 @@ namespace ToDoList.ViewModels
                                 Name = tag,
                             });
                             break;
+                        case "yearly":
+                            TodoJobs_Yearly.Add(new JobModel()
+                            {
+                                Name = tag,
+                            });
+                            break;
                         default:
                             break;
                     }
                 }
-
+                OnSaveData();
             }
         }
     }

@@ -22,6 +22,7 @@
         </behaviors:EventTrigger>
     </behaviors:Interaction.Triggers>
     <Grid Background="White">
+
         <Grid.RowDefinitions>
             <RowDefinition Height="0" />
             <RowDefinition />
@@ -58,6 +59,8 @@
                 </Style>
             </Grid.Resources>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="5" />
                 <ColumnDefinition />
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition />
@@ -111,7 +114,7 @@
                     <ListView ItemsSource="{Binding TodoJobs_Daily, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               HorizontalContentAlignment="Stretch"
                               VerticalContentAlignment="Stretch">
-                        
+
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid HorizontalAlignment="Stretch"
@@ -122,10 +125,10 @@
                                     <Grid.ContextMenu>
                                         <ContextMenu>
                                             <MenuItem Header="Edit"
-                                                      Click="MenuItem_Edit_Click"/>
+                                                      Click="MenuItem_Edit_Click" />
                                             <MenuItem Header="Delete"
                                                       Click="MenuItem_Delete_Click"
-                                                      CommandParameter="Daily_Jobs"/>
+                                                      CommandParameter="Daily_Jobs" />
                                         </ContextMenu>
                                     </Grid.ContextMenu>
                                     <Grid.ColumnDefinitions>
@@ -174,7 +177,12 @@
 
             <GridSplitter Grid.Column="3"
                           HorizontalAlignment="Stretch"
-                          
+                          Margin="0 45 0 5"
+                          Background="LightGray">
+
+            </GridSplitter>
+            <GridSplitter Grid.Column="5"
+                          HorizontalAlignment="Stretch"
                           Margin="0 45 0 5"
                           Background="LightGray">
 
@@ -251,8 +259,8 @@
 
                                     <Grid Grid.Column="0">
                                         <TextBlock Text="{Binding STT, Mode=OneWay,UpdateSourceTrigger=PropertyChanged, StringFormat=D2}"
-                                                   Margin="5 0" 
-                                                   VerticalAlignment="Center"/>
+                                                   Margin="5 0"
+                                                   VerticalAlignment="Center" />
                                     </Grid>
                                     <!--column1-->
                                     <Grid Grid.Column="1">
@@ -281,7 +289,7 @@
             </Grid>
 
 
-            <!--column2: weekly-->
+            <!--column4: monthly-->
             <Grid Grid.Column="4"
                   Margin="5">
                 <Grid.RowDefinitions>
@@ -350,8 +358,104 @@
 
                                     <Grid Grid.Column="0">
                                         <TextBlock Text="{Binding STT, Mode=OneWay,UpdateSourceTrigger=PropertyChanged, StringFormat=D2}"
-                                                   Margin="5 0" 
-                                                   VerticalAlignment="Center"/>
+                                                   Margin="5 0"
+                                                   VerticalAlignment="Center" />
+                                    </Grid>
+                                    <!--column1-->
+                                    <Grid Grid.Column="1">
+                                        <CheckBox IsThreeState="False"
+                                                  VerticalAlignment="Center"
+                                                  IsChecked="{Binding IsDoneJob,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        </CheckBox>
+                                    </Grid>
+
+                                    <Grid Grid.Column="2">
+                                        <TextBlock Text="{Binding Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   MaxWidth="250"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Left"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </Grid>
+
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Border>
+
+            </Grid>
+
+            <!--column6: yearly-->
+            <Grid Grid.Column="6"
+                  Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <TextBlock Text="Yearly"
+                               HorizontalAlignment="Left"
+                               Style="{StaticResource txtTitle}" />
+
+                    <StackPanel HorizontalAlignment="Right"
+                                Orientation="Horizontal">
+                        <Button FontSize="20"
+                                FontWeight="SemiBold"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                ToolTip="Add Job Monthly"
+                                Command="{Binding AddJobCommand}"
+                                CommandParameter="Yearly">
+                            <Image Source="../Images/plus.png"
+                                   Height="25"
+                                   Width="25" />
+                        </Button>
+
+
+                        <Button FontSize="20"
+                                Visibility="Collapsed"
+                                FontWeight="SemiBold"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                ToolTip="Refresh Job"
+                                Command="{Binding RefreshJobCommand}"
+                                CommandParameter="Yearly">
+                            <Image Source="../Images/refresh.png"
+                                   Height="25"
+                                   Width="25" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <Border BorderBrush="Black"
+                        Grid.Row="1"
+                        BorderThickness="1">
+                    <ListView ItemsSource="{Binding TodoJobs_Yearly, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                              HorizontalContentAlignment="Stretch">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch"
+                                      Margin="5"
+                                      Height="30"
+                                      Background="Transparent">
+                                    <Grid.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Edit"
+                                                      Click="MenuItem_Edit_Click" />
+                                            <MenuItem Header="Delete"
+                                                      Click="MenuItem_Delete_Click"
+                                                      CommandParameter="Monthly_Jobs" />
+                                        </ContextMenu>
+                                    </Grid.ContextMenu>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="0">
+                                        <TextBlock Text="{Binding STT, Mode=OneWay,UpdateSourceTrigger=PropertyChanged, StringFormat=D2}"
+                                                   Margin="5 0"
+                                                   VerticalAlignment="Center" />
                                     </Grid>
                                     <!--column1-->
                                     <Grid Grid.Column="1">
