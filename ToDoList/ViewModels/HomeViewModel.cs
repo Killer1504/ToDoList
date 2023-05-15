@@ -66,36 +66,41 @@ namespace ToDoList.ViewModels
 
         public void OnSave(object obj)
         {
-            try
+
+            var ret = OnSaveData();
+            if (ret.Item1)
             {
-                OnSaveData();
                 _ = MessageBox.Show("OK", "Lưu", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                _ = MessageBox.Show($"Lưu lỗi\r\n{ex.Message}", "Lưu", MessageBoxButton.OK, MessageBoxImage.Information);
 
             }
+            else
+            {
+                _ = MessageBox.Show($"Lưu lỗi\r\n{ret.Item2}", "Lưu", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            }
+
         }
 
 
-        private void OnSaveData()
+        public (bool, string) OnSaveData()
         {
-            var path = Utils.GlobalVariable.Instance.DATA_PATH;
-            var jsonStr_Daily = JsonConvert.SerializeObject(TodoJobs_Daily);
-            var jsonStr_Weekly = JsonConvert.SerializeObject(TodoJobs_Weekly);
-            var jsonStr_Monthly = JsonConvert.SerializeObject(TodoJobs_Monthly);
-            var jsonStr_Yearly = JsonConvert.SerializeObject(TodoJobs_Yearly);
-
-            var key = Utils.GlobalVariable.Instance.KEY_ENCTYPED;
-
-            var jsonEncrypted_Daily = ToDoListLib.Helper.EncryptHelper.EncryptString(jsonStr_Daily, key);
-            var jsonEncrypted_Weekly = ToDoListLib.Helper.EncryptHelper.EncryptString(jsonStr_Weekly, key);
-            var jsonEncrypted_Monthly = ToDoListLib.Helper.EncryptHelper.EncryptString(jsonStr_Monthly, key);
-            var jsonEncrypted_Yearly = ToDoListLib.Helper.EncryptHelper.EncryptString(jsonStr_Yearly, key);
-            using (var sw = new StreamWriter(path))
+            try
             {
-                var dictionary = new Dictionary<string, string>
+                var path = Utils.GlobalVariable.Instance.DATA_PATH;
+                var jsonStr_Daily = JsonConvert.SerializeObject(TodoJobs_Daily);
+                var jsonStr_Weekly = JsonConvert.SerializeObject(TodoJobs_Weekly);
+                var jsonStr_Monthly = JsonConvert.SerializeObject(TodoJobs_Monthly);
+                var jsonStr_Yearly = JsonConvert.SerializeObject(TodoJobs_Yearly);
+
+                var key = Utils.GlobalVariable.Instance.KEY_ENCTYPED;
+
+                var jsonEncrypted_Daily = ToDoListLib.Helper.EncryptHelper.EncryptString(jsonStr_Daily, key);
+                var jsonEncrypted_Weekly = ToDoListLib.Helper.EncryptHelper.EncryptString(jsonStr_Weekly, key);
+                var jsonEncrypted_Monthly = ToDoListLib.Helper.EncryptHelper.EncryptString(jsonStr_Monthly, key);
+                var jsonEncrypted_Yearly = ToDoListLib.Helper.EncryptHelper.EncryptString(jsonStr_Yearly, key);
+                using (var sw = new StreamWriter(path))
+                {
+                    var dictionary = new Dictionary<string, string>
                 {
                     { "daily", jsonEncrypted_Daily },
                     { "weekly", jsonEncrypted_Weekly },
@@ -103,10 +108,18 @@ namespace ToDoList.ViewModels
                     { "yearly", jsonEncrypted_Yearly },
                 };
 
-                var jsonStr = JsonConvert.SerializeObject(dictionary);
-                sw.WriteLine(jsonStr);
-                sw.Flush();
+                    var jsonStr = JsonConvert.SerializeObject(dictionary);
+                    sw.WriteLine(jsonStr);
+                    sw.Flush();
+                }
+                return (true, "");
             }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+
+            }
+
         }
 
         private void OnReadData()
@@ -235,7 +248,7 @@ namespace ToDoList.ViewModels
                     {
                         Name = "Tập thể dục",
                     });
-                    
+
                 }
             }
         }
@@ -266,24 +279,26 @@ namespace ToDoList.ViewModels
                         job.STT = ++_stt;
                     }
                 }
-
+                OnSaveData();
             }
 
         }
 
         private void OnAddJob(object obj)
         {
-            var wd = new Views.JobNameWD();
-            wd.ShowDialog();
-            var tag = wd.Tag?.ToString();
-            if (string.IsNullOrEmpty(tag) || string.IsNullOrWhiteSpace(tag))
+            if (obj is string str)
             {
-
-            }
-            else
-            {
-                if (obj is string str)
+                var wd = new Views.JobNameWD();
+                wd.txtJobHint.Text += " " + str;
+                wd.ShowDialog();
+                var tag = wd.Tag?.ToString();
+                if (string.IsNullOrEmpty(tag) || string.IsNullOrWhiteSpace(tag))
                 {
+
+                }
+                else
+                {
+
                     switch (str.ToLower())
                     {
                         case "daily":
@@ -313,8 +328,9 @@ namespace ToDoList.ViewModels
                         default:
                             break;
                     }
+
+
                 }
-                OnSaveData();
             }
         }
     }

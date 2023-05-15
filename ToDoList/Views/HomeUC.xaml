@@ -76,14 +76,16 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <TextBlock Text="Daily"
-                               HorizontalAlignment="Left"
-                               Style="{StaticResource txtTitle}" />
+                    <TextBlock HorizontalAlignment="Left"
+                               Style="{StaticResource txtTitle}">
+                        <Run Text="Daily" />
+                    </TextBlock>
 
                     <StackPanel HorizontalAlignment="Right"
                                 Orientation="Horizontal">
                         <Button FontSize="20"
                                 FontWeight="SemiBold"
+                                Visibility="Collapsed"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 ToolTip="Add Job Daily"
@@ -114,20 +116,33 @@
                     <ListView ItemsSource="{Binding TodoJobs_Daily, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               HorizontalContentAlignment="Stretch"
                               VerticalContentAlignment="Stretch">
-
+                        <ListView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="_Add"
+                                          Command="{Binding AddJobCommand}"
+                                          CommandParameter="Daily" />
+                            </ContextMenu>
+                        </ListView.ContextMenu>
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid HorizontalAlignment="Stretch"
                                       VerticalAlignment="Stretch"
+                                      Background="Transparent"
                                       Margin="5"
-                                      Height="30"
-                                      Background="Transparent">
+                                      Height="30">
                                     <Grid.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Header="Edit"
+                                            <MenuItem Header="_Edit"
                                                       Click="MenuItem_Edit_Click" />
-                                            <MenuItem Header="Delete"
+                                            <MenuItem Header="_Delete"
                                                       Click="MenuItem_Delete_Click"
+                                                      CommandParameter="Daily_Jobs" />
+                                            <Separator />
+                                            <MenuItem Header="Move up"
+                                                      Click="MenuItem_Move_Up_Click"
+                                                      CommandParameter="Daily_Jobs" />
+                                            <MenuItem Header="Move down"
+                                                      Click="MenuItem_Move_Down_Click"
                                                       CommandParameter="Daily_Jobs" />
                                         </ContextMenu>
                                     </Grid.ContextMenu>
@@ -155,9 +170,9 @@
                                     <Grid Grid.Column="2">
                                         <TextBlock Text="{Binding Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                    MaxWidth="250"
+                                                   TextWrapping="WrapWithOverflow"
                                                    VerticalAlignment="Center"
-                                                   HorizontalAlignment="Left"
-                                                   TextTrimming="CharacterEllipsis" />
+                                                   HorizontalAlignment="Left" />
                                     </Grid>
 
                                 </Grid>
@@ -170,20 +185,20 @@
 
             <GridSplitter Grid.Column="1"
                           HorizontalAlignment="Stretch"
-                          Margin="0 45 0 5"
+                          Margin="0 35 0 5"
                           Background="LightGray">
 
             </GridSplitter>
 
             <GridSplitter Grid.Column="3"
                           HorizontalAlignment="Stretch"
-                          Margin="0 45 0 5"
+                          Margin="0 35 0 5"
                           Background="LightGray">
 
             </GridSplitter>
             <GridSplitter Grid.Column="5"
                           HorizontalAlignment="Stretch"
-                          Margin="0 45 0 5"
+                          Margin="0 35 0 5"
                           Background="LightGray">
 
             </GridSplitter>
@@ -207,6 +222,7 @@
                                 Background="Transparent"
                                 BorderThickness="0"
                                 ToolTip="Add Job Weekly"
+                                Visibility="Collapsed"
                                 Command="{Binding AddJobCommand}"
                                 CommandParameter="Weekly">
                             <Image Source="../Images/plus.png"
@@ -235,6 +251,13 @@
                     <ListView ItemsSource="{Binding TodoJobs_Weekly, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               HorizontalContentAlignment="Stretch"
                               VerticalContentAlignment="Stretch">
+                        <ListView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="_Add"
+                                          Command="{Binding AddJobCommand}"
+                                          CommandParameter="Weekly" />
+                            </ContextMenu>
+                        </ListView.ContextMenu>
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid HorizontalAlignment="Stretch"
@@ -248,6 +271,13 @@
                                                       Click="MenuItem_Edit_Click" />
                                             <MenuItem Header="Delete"
                                                       Click="MenuItem_Delete_Click"
+                                                      CommandParameter="Weekly_Jobs" />
+                                            <Separator />
+                                            <MenuItem Header="Move up"
+                                                      Click="MenuItem_Move_Up_Click"
+                                                      CommandParameter="Weekly_Jobs" />
+                                            <MenuItem Header="Move down"
+                                                      Click="MenuItem_Move_Down_Click"
                                                       CommandParameter="Weekly_Jobs" />
                                         </ContextMenu>
                                     </Grid.ContextMenu>
@@ -276,7 +306,7 @@
                                                    MaxWidth="250"
                                                    VerticalAlignment="Center"
                                                    HorizontalAlignment="Left"
-                                                   TextTrimming="CharacterEllipsis" />
+                                                   TextWrapping="Wrap" />
                                     </Grid>
 
 
@@ -308,6 +338,7 @@
                                 Background="Transparent"
                                 BorderThickness="0"
                                 ToolTip="Add Job Monthly"
+                                Visibility="Collapsed"
                                 Command="{Binding AddJobCommand}"
                                 CommandParameter="Monthly">
                             <Image Source="../Images/plus.png"
@@ -335,6 +366,13 @@
                         BorderThickness="1">
                     <ListView ItemsSource="{Binding TodoJobs_Monthly, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               HorizontalContentAlignment="Stretch">
+                        <ListView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="_Add"
+                                          Command="{Binding AddJobCommand}"
+                                          CommandParameter="Monthly" />
+                            </ContextMenu>
+                        </ListView.ContextMenu>
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid HorizontalAlignment="Stretch"
@@ -347,6 +385,13 @@
                                                       Click="MenuItem_Edit_Click" />
                                             <MenuItem Header="Delete"
                                                       Click="MenuItem_Delete_Click"
+                                                      CommandParameter="Monthly_Jobs" />
+                                            <Separator />
+                                            <MenuItem Header="Move up"
+                                                      Click="MenuItem_Move_Up_Click"
+                                                      CommandParameter="Monthly_Jobs" />
+                                            <MenuItem Header="Move down"
+                                                      Click="MenuItem_Move_Down_Click"
                                                       CommandParameter="Monthly_Jobs" />
                                         </ContextMenu>
                                     </Grid.ContextMenu>
@@ -374,7 +419,7 @@
                                                    MaxWidth="250"
                                                    VerticalAlignment="Center"
                                                    HorizontalAlignment="Left"
-                                                   TextTrimming="CharacterEllipsis" />
+                                                   TextWrapping="WrapWithOverflow" />
                                     </Grid>
 
                                 </Grid>
@@ -402,6 +447,7 @@
                         <Button FontSize="20"
                                 FontWeight="SemiBold"
                                 Background="Transparent"
+                                Visibility="Collapsed"
                                 BorderThickness="0"
                                 ToolTip="Add Job Monthly"
                                 Command="{Binding AddJobCommand}"
@@ -431,6 +477,13 @@
                         BorderThickness="1">
                     <ListView ItemsSource="{Binding TodoJobs_Yearly, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               HorizontalContentAlignment="Stretch">
+                        <ListView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="_Add"
+                                          Command="{Binding AddJobCommand}"
+                                          CommandParameter="Yearly" />
+                            </ContextMenu>
+                        </ListView.ContextMenu>
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid HorizontalAlignment="Stretch"
@@ -443,7 +496,14 @@
                                                       Click="MenuItem_Edit_Click" />
                                             <MenuItem Header="Delete"
                                                       Click="MenuItem_Delete_Click"
-                                                      CommandParameter="Monthly_Jobs" />
+                                                      CommandParameter="Yearly_Jobs" />
+                                            <Separator />
+                                            <MenuItem Header="Move up"
+                                                      Click="MenuItem_Move_Up_Click"
+                                                      CommandParameter="Yearly_Jobs" />
+                                            <MenuItem Header="Move down"
+                                                      Click="MenuItem_Move_Down_Click"
+                                                      CommandParameter="Yearly_Jobs" />
                                         </ContextMenu>
                                     </Grid.ContextMenu>
                                     <Grid.ColumnDefinitions>

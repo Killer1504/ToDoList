@@ -51,6 +51,8 @@ namespace ToDoList.Views
                 else
                 {
                     jobModel.Name = tag;
+                    var homeViewModel = _this.DataContext as HomeViewModel;
+                    homeViewModel?.OnSaveData();
                 }
             }
             e.Handled = true;
@@ -77,8 +79,103 @@ namespace ToDoList.Views
                 {
                     homeViewModel.TodoJobs_Daily.Remove(jobModel);
                 }
+                else if (commandParameter == "Yearly_Jobs")
+                {
+                    homeViewModel.TodoJobs_Yearly.Remove(jobModel);
+                }
             }
 
+        }
+
+        private void MenuItem_Move_Up_Click(object sender, RoutedEventArgs e)
+        {
+            var menuItem = e.Source as MenuItem;
+            var jobModel = menuItem?.DataContext as JobModel;
+            if (jobModel != null)
+            {
+                var commandParameter = menuItem.CommandParameter?.ToString();
+                var homeViewModel = _this.DataContext as HomeViewModel;
+
+                if (commandParameter == "Daily_Jobs")
+                {
+                    var index = homeViewModel.TodoJobs_Daily.IndexOf(jobModel);
+                    if (index > 0 && index < homeViewModel.TodoJobs_Daily.Count)
+                    {
+                        homeViewModel.TodoJobs_Daily.Move(index, index - 1);
+                    }
+                }
+                else if (commandParameter == "Weekly_Jobs")
+                {
+                    var index = homeViewModel.TodoJobs_Weekly.IndexOf(jobModel);
+                    if (index > 0 && index < homeViewModel.TodoJobs_Weekly.Count)
+                    {
+                        homeViewModel.TodoJobs_Weekly.Move(index, index - 1);
+                    }
+                }
+                else if (commandParameter == "Monthly_Jobs")
+                {
+                    var index = homeViewModel.TodoJobs_Monthly.IndexOf(jobModel);
+                    if (index > 0 && index < homeViewModel.TodoJobs_Monthly.Count)
+                    {
+                        homeViewModel.TodoJobs_Monthly.Move(index, index - 1);
+                    }
+                }
+                else if (commandParameter == "Yearly_Jobs")
+                {
+                    var index = homeViewModel.TodoJobs_Yearly.IndexOf(jobModel);
+                    if (index > 0 && index < homeViewModel.TodoJobs_Yearly.Count)
+                    {
+                        homeViewModel.TodoJobs_Yearly.Move(index, index - 1);
+                    }
+                }
+                homeViewModel?.OnSaveData();
+            }
+        }
+
+        private void MenuItem_Move_Down_Click(object sender, RoutedEventArgs e)
+        {
+            var menuItem = e.Source as MenuItem;
+            var jobModel = menuItem?.DataContext as JobModel;
+            if (jobModel != null)
+            {
+                var commandParameter = menuItem.CommandParameter?.ToString();
+                var homeViewModel = _this.DataContext as HomeViewModel;
+
+                if (commandParameter == "Daily_Jobs")
+                {
+                    var index = homeViewModel.TodoJobs_Daily.IndexOf(jobModel);
+                    if (index >= 0 && index < homeViewModel.TodoJobs_Daily.Count - 1)
+                    {
+                        homeViewModel.TodoJobs_Daily.Move(index, index + 1);
+                    }
+                }
+                else if (commandParameter == "Weekly_Jobs")
+                {
+                    var index = homeViewModel.TodoJobs_Weekly.IndexOf(jobModel);
+                    if (index > 0 && index < homeViewModel.TodoJobs_Weekly.Count - 1)
+                    {
+                        homeViewModel.TodoJobs_Weekly.Move(index, index + 1);
+                    }
+                }
+                else if (commandParameter == "Monthly_Jobs")
+                {
+                    var index = homeViewModel.TodoJobs_Monthly.IndexOf(jobModel);
+                    if (index > 0 && index < homeViewModel.TodoJobs_Monthly.Count - 1)
+                    {
+                        homeViewModel.TodoJobs_Monthly.Move(index, index + 1);
+                    }
+                }
+                else if (commandParameter == "Yearly_Jobs")
+                {
+                    var index = homeViewModel.TodoJobs_Yearly.IndexOf(jobModel);
+                    if (index > 0 && index < homeViewModel.TodoJobs_Yearly.Count - 1)
+                    {
+                        homeViewModel.TodoJobs_Yearly.Move(index, index + 1);
+                    }
+                }
+
+                homeViewModel?.OnSaveData();
+            }
         }
     }
 }

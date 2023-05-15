@@ -61,7 +61,8 @@
                         </Style.Triggers>
                     </Style>
                 </TextBlock.Style>
-                        <Run Text="Nhập tên việc cần làm" />
+                        <Run Text="Nhập tên việc cần làm" 
+                             x:Name="txtJobHint"/>
             </TextBlock>
         </Grid>
 

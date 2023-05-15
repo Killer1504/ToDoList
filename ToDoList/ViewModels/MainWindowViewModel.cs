@@ -49,6 +49,8 @@ namespace ToDoList.ViewModels
         {
             if (obj is MainWindow wd)
             {
+                var homeViewModel = wd.homeUC.DataContext as HomeViewModel;
+                homeViewModel?.OnSaveData();
                 Environment.Exit(0);
             }
         }
@@ -74,7 +76,8 @@ namespace ToDoList.ViewModels
         {
             if (obj is MainWindow wd)
             {
-
+                var date = DateTime.Now.ToString("MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                wd.Title += $"-{date}";
             }
         }
 
