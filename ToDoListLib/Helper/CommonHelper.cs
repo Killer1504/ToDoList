@@ -24,6 +24,20 @@ namespace ToDoListLib.Helper
             }
             
         }
+        public static string GetTimeCurrentStr(DateTime datetime, string format = "HH_mm_ss_ffff")
+        {
+            try
+            {
+                var str = datetime.ToString(format, CultureInfo.InvariantCulture.DateTimeFormat);
+                return str;
+            }
+            catch (Exception)
+            {
+                // when input format incorrect
+                return DateTime.Now.ToString("HH_mm_ss_ffff", CultureInfo.InvariantCulture.DateTimeFormat);
+            }
+
+        }
 
         private static string ReFormatStr(string str, string sepecialChar = "-", int lengthGroup = 4)
         {
